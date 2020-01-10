@@ -16,3 +16,10 @@ Java8Lambdas
 This is some Java 8 sample code I wrote in the process of learning Java 8 Functional Programming.
 Referred tutorials from : https://javabrains.io
 
+webflux
+-------
+A Web Application that monitors a user access log to keep real time track of the user access log.
+Technologies used: Spring webflux, SpringBoot, MongoDB, JQuery, Bootstrap
+
+
+
