@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="row">
+		<div class="col-sm-6">
+
+			<div class="container">
+				<h4 style="text-align: center">User Access Log Monitor</h4>
+				<table class="table table-dark table-striped" id="log-table">
+					<thead>
+						<tr>
+							<th>Log</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		<div class="col-sm-6">
+		    <div class="container">
+				<h4 style="text-align: center">Access Count for IPs</h4>
+				<table class="table table-dark table-striped" id="count-table">
+					<thead>
+						<tr>
+							<th>IP</th><th>Count</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>192.168.233.82</td><td></td>
+						</tr>
+						<tr>
+							<td>192.168.170.194</td><td></td>
+						</tr>
+						<tr>
+							<td>192.168.158.178</td><td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		var evtSourceLogStr = new EventSource("http://localhost:8080/accesslog");
+		evtSourceLogStr.onmessage = function(event) {
+			var table = document.getElementById("log-table");
+			var row = table.insertRow(1);
+			var cell1 = row.insertCell(0);
+
+			cell1.innerHTML = '<td>' + event.data + '</td>';
+
+		}
+		
+		new EventSource("http://localhost:8080/accesscount/192.168.233.82").onmessage = function(event) {
+			document.getElementById("count-table").rows[1].cells[1].innerHTML = event.data;
+		}
+		
+		new EventSource("http://localhost:8080/accesscount/192.168.170.194").onmessage = function(event) {
+			document.getElementById("count-table").rows[2].cells[1].innerHTML = event.data;
+		}
+		
+		new EventSource("http://localhost:8080/accesscount/192.168.158.178").onmessage = function(event) {
+			document.getElementById("count-table").rows[3].cells[1].innerHTML = event.data;
+		}
+	</script>
+
+
+</body>
+</html>
